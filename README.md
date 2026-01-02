@@ -1,7 +1,5 @@
 # Higher / Lower Card Game
 
-Java command line card game built for a software engineering coding task.
-
 ## How to Run
 Run Main.java from IntelliJ.
 
