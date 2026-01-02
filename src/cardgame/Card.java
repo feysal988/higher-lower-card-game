@@ -17,11 +17,15 @@ public class Card {
         return rank == Rank.JOKER;
     }
 
+    public Suit getSuit() {
+        return suit;
+    }
+
     @Override
     public String toString() {
         if (rank == Rank.JOKER) {
             return "JOKER";
         }
-        return rank + " of " + suit;
+        return rank.name() + " of " + suit.name();
     }
 }

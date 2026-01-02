@@ -1,14 +1,11 @@
 # Higher / Lower Card Game
 
-Java command line card game built for a software engineering coding task.
-
 ## How to Run
 Run Main.java from IntelliJ.
 
-## Game Rules
-A standard 52 card deck is used.
-Ace is treated as the highest card.
-The player guesses whether the next card will be higher or lower.
+## Game Modes
+1. Higher or Lower - guess if the next card is higher or lower, with streak-based scoring and jokers.
+2. Guess the Suit - guess the suit of the drawn card; jokers allow survival and reset streak.
 
 ## Design Decisions
 Enums are used for suits and ranks.
