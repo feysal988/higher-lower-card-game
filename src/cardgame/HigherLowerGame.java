@@ -3,59 +3,67 @@ package cardgame;
 import java.util.Scanner;
 
 public class HigherLowerGame {
+
     private final Deck deck;
-    private Card currentCard;
     private int score;
-    private int streak;
+    private int highScore;
 
     public HigherLowerGame() {
         deck = new Deck();
         deck.shuffle();
-        currentCard = deck.drawCard();
         score = 0;
-        streak = 0;
+        highScore = HighScoreManager.loadHighScore();
     }
 
     public void play() {
         Scanner scanner = new Scanner(System.in);
-        boolean playing = true;
 
         System.out.println("Welcome to Higher or Lower");
+        System.out.println("High Score: " + highScore);
+        System.out.println();
 
-        while (playing && !deck.isEmpty()) {
+        Card currentCard = deck.drawCard();
+
+        while (!deck.isEmpty()) {
             System.out.println("Current card: " + currentCard);
             System.out.print("Higher or Lower (H/L): ");
-
-            char guess = scanner.nextLine().toUpperCase().charAt(0);
+            String choice = scanner.nextLine().toUpperCase();
 
             Card nextCard = deck.drawCard();
-            System.out.println("Next card: " + nextCard);
 
             if (nextCard.isJoker()) {
                 System.out.println("JOKER drawn! You survive.");
-                streak = 0;
                 currentCard = deck.drawCard();
                 System.out.println();
                 continue;
             }
 
-            if (GameRules.isCorrectGuess(currentCard, nextCard, guess)) {
-                streak++;
-                score += streak;
+            System.out.println("Next card: " + nextCard);
+
+            boolean correct =
+                    (choice.equals("H") && nextCard.getValue() > currentCard.getValue()) ||
+                            (choice.equals("L") && nextCard.getValue() < currentCard.getValue());
+
+            if (correct) {
+                score++;
                 System.out.println("Correct");
-                System.out.println("Streak: " + streak);
             } else {
                 System.out.println("Wrong");
-                playing = false;
+                break;
             }
 
-            currentCard = nextCard;
             System.out.println("Score: " + score);
             System.out.println();
+            currentCard = nextCard;
+        }
+
+        if (score > highScore) {
+            HighScoreManager.saveHighScore(score);
+            System.out.println("NEW HIGH SCORE!");
         }
 
         System.out.println("Game Over");
         System.out.println("Final Score: " + score);
+        System.out.println("High Score: " + Math.max(score, highScore));
     }
 }
-
